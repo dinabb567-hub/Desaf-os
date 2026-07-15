@@ -29,17 +29,40 @@ int main() {
             hab.emplace_back(a, b); //para añadir estos elementos al final de la lista
         }
 
-        int total = 2;
-        for (int l = 0; l + 1 < M; l++) {
-            if ((hab[l].first == hab[l + 1].first) ||
-                (hab[l].first == hab[l + 1].second) ||
-                (hab[l].second == hab[l + 1].first) ||
-                (hab[l].second == hab[l + 1].second)) {
-                total++;
+        int max_grupo = 0;
+        vector<bool> borrados(M, false);
+
+
+        for(int l = 0; l < M; l++) {
+
+            if(borrados[l]) continue;
+
+            int total = 2;
+            borrados[l] = true;
+
+            for (int j = 0; j < M; j++) {
+                if (borrados[j]) continue;
+
+                 if ((hab[l].first == hab[j].first) ||
+                     (hab[l].first == hab[j].second) ||
+                     (hab[l].second == hab[j].first) ||
+                     (hab[l].second == hab[j].second)) {
+
+                     total++;
+                     borrados[j] = true;
+
+                     j = -1;
+                 }
+              }
+
+              if (total > max_grupo) {
+                max_grupo = total;
+              }
             }
-        }
-        cout << total;
-        if (casos) cout << '\n';
+                if (M == 0) cout << 1;
+                else cout << max_grupo;
+
+                if (casos) cout << '\n';
     }     
 
     return 0;
